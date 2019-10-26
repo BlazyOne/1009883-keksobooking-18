@@ -54,8 +54,7 @@
     var featuresFragment = document.createDocumentFragment();
     itemData.offer.features.forEach(function (it) {
       var featureElement = document.createElement('li');
-      featureElement.classList.add('popup__feature');
-      featureElement.classList.add('popup__feature--' + it);
+      featureElement.classList.add('popup__feature', 'popup__feature--' + it);
       featuresFragment.appendChild(featureElement);
     });
     popupFeaturesElement.appendChild(featuresFragment);
