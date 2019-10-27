@@ -15,8 +15,8 @@
     pinElement.querySelector('img').setAttribute('src', pinObject.author.avatar);
     pinElement.querySelector('img').setAttribute('alt', pinObject.offer.title);
 
-    pinElement.addEventListener('click', function () {
-      window.card.showCard(pinObject);
+    pinElement.addEventListener('click', function (evt) {
+      window.card.showCard(pinObject, evt);
     });
 
     return pinElement;

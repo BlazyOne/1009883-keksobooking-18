@@ -4,6 +4,7 @@
   var cardTemplateElement = document.querySelector('#card').content.querySelector('.map__card');
   var cardElement = cardTemplateElement.cloneNode(true);
   var cardClose = cardElement.querySelector('.popup__close');
+  var targetPin = document.querySelector('#pin').content.querySelector('.map__pin').cloneNode(true);
 
   document.querySelector('.map').insertBefore(cardElement, document.querySelector('.map__filters-container'));
   cardElement.classList.add('hidden');
@@ -76,14 +77,18 @@
     window.util.isEscEvent(evt, hideCard);
   };
 
-  var showCard = function (cardData) {
+  var showCard = function (cardData, evt) {
     renderCard(cardData);
     cardElement.classList.remove('hidden');
+    targetPin.classList.remove('map__pin--active');
+    targetPin = evt.currentTarget;
+    targetPin.classList.add('map__pin--active');
     document.addEventListener('keydown', onCardEscPress);
   };
 
   var hideCard = function () {
     cardElement.classList.add('hidden');
+    targetPin.classList.remove('map__pin--active');
     document.removeEventListener('keydown', onCardEscPress);
   };
 
