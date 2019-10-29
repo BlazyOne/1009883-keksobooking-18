@@ -10,44 +10,19 @@
   cardElement.classList.add('hidden');
 
   var renderCard = function (itemData) {
-    var type;
-    switch (itemData.offer.type) {
-      case 'palace':
-        type = 'Дворец';
-        break;
-      case 'flat':
-        type = 'Квартира';
-        break;
-      case 'house':
-        type = 'Дом';
-        break;
-      case 'bungalo':
-        type = 'Бунгало';
-        break;
-    }
-
-    var roomsText;
-    if (itemData.offer.rooms % 100 > 10 && itemData.offer.rooms % 100 < 20 || itemData.offer.rooms % 10 === 0 || itemData.offer.rooms % 10 > 4) {
-      roomsText = itemData.offer.rooms + ' комнат';
-    } else if (itemData.offer.rooms % 10 === 1) {
-      roomsText = itemData.offer.rooms + ' комната';
-    } else {
-      roomsText = itemData.offer.rooms + ' комнаты';
-    }
-
-    var guestsText;
-    if (itemData.offer.guests % 10 === 1 && itemData.offer.guests % 100 !== 11) {
-      guestsText = 'для ' + itemData.offer.guests + ' гостя';
-    } else {
-      guestsText = 'для ' + itemData.offer.guests + ' гостей';
-    }
+    var type = {
+      palace: 'Дворец',
+      flat: 'Квартира',
+      house: 'Дом',
+      bungalo: 'Бунгало'
+    };
 
     cardElement.querySelector('.popup__avatar').src = itemData.author.avatar;
     cardElement.querySelector('.popup__title').textContent = itemData.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = itemData.offer.address;
     cardElement.querySelector('.popup__text--price').textContent = itemData.offer.price + '₽/ночь';
-    cardElement.querySelector('.popup__type').textContent = type;
-    cardElement.querySelector('.popup__text--capacity').textContent = roomsText + ' ' + guestsText;
+    cardElement.querySelector('.popup__type').textContent = type[itemData.offer.type];
+    cardElement.querySelector('.popup__text--capacity').textContent = itemData.offer.rooms + ' ' + window.util.getNoun(itemData.offer.rooms, 'комната', 'комнаты', 'комнат') + ' для ' + itemData.offer.guests + ' ' + window.util.getNoun(itemData.offer.guests, 'гостя', 'гостей', 'гостей');
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + itemData.offer.checkin + ', выезд до ' + itemData.offer.checkout;
 
     var popupFeaturesElement = cardElement.querySelector('.popup__features');
