@@ -3,6 +3,7 @@
 (function () {
   var MAP_PIN_WIDTH = 50;
   var MAP_PINT_HEIGHT = 70;
+  var PINS_LIMIT = 5;
 
   var mapElement = document.querySelector('.map');
   var pinTemplateElement = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -24,13 +25,18 @@
 
   var fillPins = function (pinsData) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < pinsData.length; i++) {
-      fragment.appendChild(renderPin(pinsData[i]));
+    for (var i = 0, j = 0; i < pinsData.length && j < PINS_LIMIT; i++) {
+      if (pinsData[i].offer) {
+        fragment.appendChild(renderPin(pinsData[i]));
+        j++;
+      }
     }
     mapPinsElement.appendChild(fragment);
   };
 
-  mapElement.classList.remove('map--faded');
+  window.pins = {
+    fillPins: fillPins
+  };
 
-  fillPins(window.data.mock);
+  // fillPins(window.data.mock);
 })();
