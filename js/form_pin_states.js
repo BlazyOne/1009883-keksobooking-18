@@ -103,10 +103,11 @@
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
 
-      mouseY = evt.clientY;
       var shift = new Coordinates(moveEvt.clientX - startMouseCoordinates.x, moveEvt.clientY - startMouseCoordinates.y);
       var endPointCoordinates = new Coordinates(mainPinElement.offsetLeft + MAIN_PIN_HALF_WIDTH + shift.x, mainPinElement.offsetTop + MAIN_PIN_HEIGHT + shift.y);
       var mapPinsRect = mapElement.querySelector('.map__pins').getBoundingClientRect();
+
+      mouseY = evt.clientY;
 
       startMouseCoordinates.x = moveEvt.clientX;
       startMouseCoordinates.y = moveEvt.clientY;
@@ -152,6 +153,8 @@
         mainPinElement.style.top = (PIN_LIMITS.y.max - MAIN_PIN_HEIGHT) + 'px';
         isYLimit = true;
       }
+
+      setAddressField(mainPinElement.offsetLeft, mainPinElement.offsetTop);
     };
 
     var onMouseUp = function (upEvt) {
