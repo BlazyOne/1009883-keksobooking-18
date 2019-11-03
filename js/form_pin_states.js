@@ -121,6 +121,8 @@
       } else if (endPointCoordinates.x > PIN_LIMITS.x.max) {
         mainPinElement.style.left = (PIN_LIMITS.x.max - MAIN_PIN_HALF_WIDTH) + 'px';
         isXLimit = true;
+      } else {
+        isXLimit = true;
       }
       if (endPointCoordinates.y >= PIN_LIMITS.y.min && endPointCoordinates.y <= PIN_LIMITS.y.max && !(isYLimit && moveEvt.clientY < mapPinsRect.top - MAIN_PIN_HEIGHT + PIN_LIMITS.y.min) && !(isYLimit && moveEvt.clientY > mapPinsRect.top + PIN_LIMITS.y.max)) {
         mainPinElement.style.top = (mainPinElement.offsetTop + shift.y) + 'px';
@@ -130,6 +132,8 @@
         isYLimit = true;
       } else if (endPointCoordinates.y > PIN_LIMITS.y.max) {
         mainPinElement.style.top = (PIN_LIMITS.y.max - MAIN_PIN_HEIGHT) + 'px';
+        isYLimit = true;
+      } else {
         isYLimit = true;
       }
 
@@ -151,6 +155,8 @@
         isYLimit = true;
       } else if (endPointY > PIN_LIMITS.y.max) {
         mainPinElement.style.top = (PIN_LIMITS.y.max - MAIN_PIN_HEIGHT) + 'px';
+        isYLimit = true;
+      } else {
         isYLimit = true;
       }
 
