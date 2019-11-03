@@ -95,11 +95,15 @@
     var startMouseCoordinates = new Coordinates(evt.clientX, evt.clientY);
     var isXLimit = false;
     var isYLimit = false;
+    var mouseY = evt.clientY;
+    var pageYStart = pageYOffset;
+
     setAddressField(mainPinElement.offsetLeft, mainPinElement.offsetTop);
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
 
+      mouseY = evt.clientY;
       var shift = new Coordinates(moveEvt.clientX - startMouseCoordinates.x, moveEvt.clientY - startMouseCoordinates.y);
       var endPointCoordinates = new Coordinates(mainPinElement.offsetLeft + MAIN_PIN_HALF_WIDTH + shift.x, mainPinElement.offsetTop + MAIN_PIN_HEIGHT + shift.y);
       var mapPinsRect = mapElement.querySelector('.map__pins').getBoundingClientRect();
@@ -131,14 +135,35 @@
       setAddressField(mainPinElement.offsetLeft, mainPinElement.offsetTop);
     };
 
+    var onScroll = function () {
+      var scrollShift = pageYOffset - pageYStart;
+      var endPointY = mainPinElement.offsetTop + MAIN_PIN_HEIGHT + scrollShift;
+      var mapPinsRect = mapElement.querySelector('.map__pins').getBoundingClientRect();
+
+      pageYStart = pageYOffset;
+
+      if (endPointY >= PIN_LIMITS.y.min && endPointY <= PIN_LIMITS.y.max && !(isYLimit && mouseY < mapPinsRect.top - MAIN_PIN_HEIGHT + PIN_LIMITS.y.min) && !(isYLimit && mouseY > mapPinsRect.top + PIN_LIMITS.y.max)) {
+        mainPinElement.style.top = (mainPinElement.offsetTop + scrollShift) + 'px';
+        isYLimit = false;
+      } else if (endPointY < PIN_LIMITS.y.min) {
+        mainPinElement.style.top = (PIN_LIMITS.y.min - MAIN_PIN_HEIGHT) + 'px';
+        isYLimit = true;
+      } else if (endPointY > PIN_LIMITS.y.max) {
+        mainPinElement.style.top = (PIN_LIMITS.y.max - MAIN_PIN_HEIGHT) + 'px';
+        isYLimit = true;
+      }
+    };
+
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
       document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('scroll', onScroll);
       document.removeEventListener('mouseup', onMouseUp);
     };
 
     document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('scroll', onScroll);
     document.addEventListener('mouseup', onMouseUp);
   });
 
