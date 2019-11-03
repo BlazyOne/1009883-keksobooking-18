@@ -143,7 +143,7 @@
 
       pageYStart = pageYOffset;
 
-      if (endPointY >= PIN_LIMITS.y.min && endPointY <= PIN_LIMITS.y.max && !(isYLimit && mouseY < mapPinsRect.top - MAIN_PIN_HEIGHT + PIN_LIMITS.y.min) && !(isYLimit && mouseY > mapPinsRect.top + PIN_LIMITS.y.max)) {
+      if (endPointY >= PIN_LIMITS.y.min && endPointY <= PIN_LIMITS.y.max && !(isYLimit && mouseY < mapPinsRect.top + scrollShift - MAIN_PIN_HEIGHT + PIN_LIMITS.y.min) && !(isYLimit && mouseY > mapPinsRect.top + scrollShift + PIN_LIMITS.y.max)) {
         mainPinElement.style.top = (mainPinElement.offsetTop + scrollShift) + 'px';
         isYLimit = false;
       } else if (endPointY < PIN_LIMITS.y.min) {
