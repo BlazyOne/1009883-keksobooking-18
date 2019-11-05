@@ -37,6 +37,4 @@
   window.pins = {
     fillPins: fillPins
   };
-
-  // fillPins(window.data.mock);
 })();

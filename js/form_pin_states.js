@@ -14,6 +14,10 @@
       max: 630
     }
   };
+  var ADS_DOWNLOAD_URL = 'https://js.dump.academy/keksobooking/data';
+  var ADS_DOWNLOAD_TYPE = 'GET';
+  var AD_UPLOAD_URL = 'https://js.dump.academy/keksobooking';
+  var AD_UPLOAD_TYPE = 'POST';
 
   var Coordinates = function (x, y) {
     this.x = x;
@@ -37,10 +41,9 @@
       Array.prototype.forEach.call(adFormElement.elements, function (it) {
         it.disabled = false;
       });
-      Array.prototype.forEach.call(filterFormElement.elements, function (it) {
-        it.disabled = false;
-      });
-      window.pins.fillPins(window.data.mock);
+
+      window.backend.load(ADS_DOWNLOAD_URL, ADS_DOWNLOAD_TYPE, onAdsDownloadSuccess, onAdsDownloadError);
+
       isActive = true;
     }
   };
@@ -61,8 +64,10 @@
         it.remove();
       });
       window.card.hideCard();
-      isActive = false;
       setAddressField(mainPinStartCoords.x, mainPinStartCoords.y);
+      mainPinElement.style.left = mainPinStartCoords.x + 'px';
+      mainPinElement.style.top = mainPinStartCoords.y + 'px';
+      isActive = false;
     }
   };
 
@@ -72,6 +77,37 @@
     } else {
       adFormAddressElement.value = (x + MAIN_PIN_HALF_WIDTH) + ', ' + (y + MAIN_PIN_CIRCLE_HALF_HEIGHT);
     }
+  };
+
+  var onAdsDownloadError = function (errorMessage) {
+    var errorElement = window.util.createLoadErrorElement();
+
+    document.querySelector('main').appendChild(errorElement);
+    errorElement.querySelector('.error__message').textContent = 'Ошибка загрузки файла похожих объявлений. ' + errorMessage;
+  };
+
+  var onAdsDownloadSuccess = function (data) {
+    window.formPinStates = {
+      data: data
+    };
+    window.pins.fillPins(data);
+    Array.prototype.forEach.call(filterFormElement.elements, function (it) {
+      it.disabled = false;
+    });
+  };
+
+  var onAdUploadError = function (errorMessage) {
+    var errorElement = window.util.createLoadErrorElement();
+
+    document.querySelector('main').appendChild(errorElement);
+    errorElement.querySelector('.error__message').textContent = 'Ошибка загрузки объявления. ' + errorMessage;
+  };
+
+  var onAdUploadSuccess = function () {
+    var successElement = window.util.createLoadSuccessElement();
+
+    setInactive();
+    document.querySelector('main').appendChild(successElement);
   };
 
   adFormElement.querySelector('#address').readOnly = true;
@@ -171,4 +207,9 @@
   });
 
   adFormResetElement.addEventListener('click', setInactive);
+
+  adFormElement.addEventListener('submit', function (evt) {
+    window.backend.load(AD_UPLOAD_URL, AD_UPLOAD_TYPE, onAdUploadSuccess, onAdUploadError, new FormData(adFormElement));
+    evt.preventDefault();
+  });
 })();
