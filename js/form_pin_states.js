@@ -56,6 +56,7 @@
       filterFormElement.reset();
       Array.prototype.forEach.call(adFormElement.elements, function (it) {
         it.disabled = true;
+        it.setCustomValidity('');
       });
       Array.prototype.forEach.call(filterFormElement.elements, function (it) {
         it.disabled = true;
