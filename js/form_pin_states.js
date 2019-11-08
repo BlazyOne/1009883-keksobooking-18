@@ -151,9 +151,7 @@
 
       reader.addEventListener('load', function () {
         var preview = document.createElement('img');
-        if (adFormPhotoPreviewContainerElement.querySelector('img')) {
-          adFormPhotoPreviewContainerElement.querySelector('img').remove();
-        }
+        adFormPhotoPreviewContainerElement.textContent = '';
         preview.src = reader.result;
         preview.style.width = 'auto';
         preview.style.height = 'auto';
