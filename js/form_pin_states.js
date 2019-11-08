@@ -18,6 +18,8 @@
   var ADS_DOWNLOAD_TYPE = 'GET';
   var AD_UPLOAD_URL = 'https://js.dump.academy/keksobooking';
   var AD_UPLOAD_TYPE = 'POST';
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png', 'svg'];
+  var DEFAULT_AVATAR_URL = 'img/muffin-grey.svg';
 
   var Coordinates = function (x, y) {
     this.x = x;
@@ -26,7 +28,11 @@
 
   var mapElement = document.querySelector('.map');
   var adFormElement = document.querySelector('.ad-form');
+  var adFormAvatarUploadElement = adFormElement.querySelector('#avatar');
+  var adFormAvatarPreviewElement = adFormElement.querySelector('.ad-form-header__preview img');
   var adFormAddressElement = adFormElement.querySelector('#address');
+  var adFormPhotoUploadElement = adFormElement.querySelector('#images');
+  var adFormPhotoPreviewContainerElement = adFormElement.querySelector('.ad-form__photo');
   var adFormResetElement = adFormElement.querySelector('.ad-form__reset');
   var filterFormElement = document.querySelector('.map__filters');
   var mainPinElement = mapElement.querySelector('.map__pin--main');
@@ -68,6 +74,8 @@
       setAddressField(mainPinStartCoords.x, mainPinStartCoords.y);
       mainPinElement.style.left = mainPinStartCoords.x + 'px';
       mainPinElement.style.top = mainPinStartCoords.y + 'px';
+      adFormAvatarPreviewElement.src = DEFAULT_AVATAR_URL;
+      adFormPhotoPreviewContainerElement.textContent = '';
       isActive = false;
     }
   };
@@ -109,6 +117,53 @@
 
     setInactive();
     document.querySelector('main').appendChild(successElement);
+  };
+
+  var setAvatar = function () {
+    var file = adFormAvatarUploadElement.files[0];
+    var filename = file.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return filename.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        adFormAvatarPreviewElement.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+    }
+  };
+
+  var setPhoto = function () {
+    var file = adFormPhotoUploadElement.files[0];
+    var filename = file.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return filename.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        var preview = document.createElement('img');
+        if (adFormPhotoPreviewContainerElement.querySelector('img')) {
+          adFormPhotoPreviewContainerElement.querySelector('img').remove();
+        }
+        preview.src = reader.result;
+        preview.style.width = 'auto';
+        preview.style.height = 'auto';
+        preview.style.maxWidth = '100%';
+        preview.style.maxHeight = '100%';
+        adFormPhotoPreviewContainerElement.appendChild(preview);
+      });
+
+      reader.readAsDataURL(file);
+    }
   };
 
   adFormElement.querySelector('#address').readOnly = true;
@@ -213,4 +268,7 @@
     window.backend.load(AD_UPLOAD_URL, AD_UPLOAD_TYPE, onAdUploadSuccess, onAdUploadError, new FormData(adFormElement));
     evt.preventDefault();
   });
+
+  adFormAvatarUploadElement.addEventListener('input', setAvatar);
+  adFormPhotoUploadElement.addEventListener('input', setPhoto);
 })();
