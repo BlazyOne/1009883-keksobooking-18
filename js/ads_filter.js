@@ -62,6 +62,7 @@
       return typePass && pricePass && roomsPass && guestsPass && featuresPass;
     });
 
+    window.card.hideCard();
     window.pins.fillPins(dataCopy);
   };
 
