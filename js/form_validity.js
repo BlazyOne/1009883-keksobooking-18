@@ -72,6 +72,13 @@
     }
   };
 
+  window.validity = {
+    checkTitleValidity: checkTitleValidity,
+    checkPriceValidity: checkPriceValidity,
+    checkTimeOutValidity: checkTimeOutValidity,
+    checkCapacityValidity: checkCapacityValidity
+  };
+
   checkTitleValidity();
   checkPriceValidity();
   checkTimeOutValidity();

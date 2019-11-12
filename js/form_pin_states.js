@@ -63,6 +63,7 @@
       Array.prototype.forEach.call(adFormElement.elements, function (it) {
         it.disabled = true;
         it.setCustomValidity('');
+        it.style.outline = '';
       });
       Array.prototype.forEach.call(filterFormElement.elements, function (it) {
         it.disabled = true;
@@ -76,6 +77,10 @@
       mainPinElement.style.top = mainPinStartCoords.y + 'px';
       adFormAvatarPreviewElement.src = DEFAULT_AVATAR_URL;
       adFormPhotoPreviewContainerElement.textContent = '';
+      window.validity.checkTitleValidity();
+      window.validity.checkPriceValidity();
+      window.validity.checkTimeOutValidity();
+      window.validity.checkCapacityValidity();
       isActive = false;
     }
   };

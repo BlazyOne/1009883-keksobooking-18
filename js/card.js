@@ -27,48 +27,22 @@
       bungalo: 'Бунгало'
     };
 
-    if (itemData.author.avatar) {
-      popupAvatarElement.src = itemData.author.avatar;
-      popupAvatarElement.classList.remove('hidden');
-    } else {
-      popupAvatarElement.classList.add('hidden');
-    }
-    if (itemData.offer.title) {
-      popupTitleElement.textContent = itemData.offer.title;
-      popupTitleElement.classList.remove('hidden');
-    } else {
-      popupTitleElement.classList.add('hidden');
-    }
-    if (itemData.offer.address) {
-      popupAddressElement.textContent = itemData.offer.address;
-      popupAddressElement.classList.remove('hidden');
-    } else {
-      popupAddressElement.classList.add('hidden');
-    }
-    if (itemData.offer.price >= 0) {
-      popupPriceElement.textContent = itemData.offer.price + '₽/ночь';
-      popupPriceElement.classList.remove('hidden');
-    } else {
-      popupPriceElement.classList.add('hidden');
-    }
-    if (itemData.offer.type) {
-      popupTypeElement.textContent = type[itemData.offer.type];
-      popupTypeElement.classList.remove('hidden');
-    } else {
-      popupTypeElement.classList.add('hidden');
-    }
-    if (itemData.offer.rooms >= 0 && itemData.offer.guests >= 0) {
-      popupCapacityElement.textContent = itemData.offer.rooms + ' ' + window.util.getNoun(itemData.offer.rooms, 'комната', 'комнаты', 'комнат') + ' для ' + itemData.offer.guests + ' ' + window.util.getNoun(itemData.offer.guests, 'гостя', 'гостей', 'гостей');
-      popupCapacityElement.classList.remove('hidden');
-    } else {
-      popupCapacityElement.classList.add('hidden');
-    }
-    if (itemData.offer.checkin && itemData.offer.checkout) {
-      popupTimeElement.textContent = 'Заезд после ' + itemData.offer.checkin + ', выезд до ' + itemData.offer.checkout;
-      popupTimeElement.classList.remove('hidden');
-    } else {
-      popupTimeElement.classList.add('hidden');
-    }
+    var setCardBlock = function (condition, cardBlockElement, assignmentType, assignmentValue) {
+      if (condition) {
+        cardBlockElement[assignmentType] = assignmentValue;
+        cardBlockElement.classList.remove('hidden');
+      } else {
+        cardBlockElement.classList.add('hidden');
+      }
+    };
+
+    setCardBlock(itemData.author.avatar, popupAvatarElement, 'src', itemData.author.avatar);
+    setCardBlock(itemData.offer.title, popupTitleElement, 'textContent', itemData.offer.title);
+    setCardBlock(itemData.offer.address, popupAddressElement, 'textContent', itemData.offer.address);
+    setCardBlock(itemData.offer.price >= 0, popupPriceElement, 'textContent', itemData.offer.price + '₽/ночь');
+    setCardBlock(itemData.offer.type, popupTypeElement, 'textContent', type[itemData.offer.type]);
+    setCardBlock(itemData.offer.rooms >= 0 && itemData.offer.guests >= 0, popupCapacityElement, 'textContent', itemData.offer.rooms + ' ' + window.util.getNoun(itemData.offer.rooms, 'комната', 'комнаты', 'комнат') + ' для ' + itemData.offer.guests + ' ' + window.util.getNoun(itemData.offer.guests, 'гостя', 'гостей', 'гостей'));
+    setCardBlock(itemData.offer.checkin && itemData.offer.checkout, popupTimeElement, 'textContent', 'Заезд после ' + itemData.offer.checkin + ', выезд до ' + itemData.offer.checkout);
 
     if (itemData.offer.features.length >= 1) {
       popupFeaturesElement.textContent = '';
@@ -84,12 +58,7 @@
       popupFeaturesElement.classList.add('hidden');
     }
 
-    if (itemData.offer.description) {
-      popupDescriptionElement.textContent = itemData.offer.description;
-      popupDescriptionElement.classList.remove('hidden');
-    } else {
-      popupDescriptionElement.classList.add('hidden');
-    }
+    setCardBlock(itemData.offer.description, popupDescriptionElement, 'textContent', itemData.offer.description);
 
     if (itemData.offer.photos.length >= 1) {
       popupPhotosElement.textContent = '';
