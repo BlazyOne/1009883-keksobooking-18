@@ -14,9 +14,9 @@
       max: 630
     }
   };
-  var ADS_DOWNLOAD_URL = 'https://js.dump.academy/keksobooking/data';
+  var ADS_DOWNLOAD_URL = 'https://javascript.pages.academy/keksobooking/data';
   var ADS_DOWNLOAD_TYPE = 'GET';
-  var AD_UPLOAD_URL = 'https://js.dump.academy/keksobooking';
+  var AD_UPLOAD_URL = 'https://javascript.pages.academy/keksobooking';
   var AD_UPLOAD_TYPE = 'POST';
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png', 'svg'];
   var DEFAULT_AVATAR_URL = 'img/muffin-grey.svg';
